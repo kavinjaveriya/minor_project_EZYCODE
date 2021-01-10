@@ -1,0 +1,29 @@
+- hosts: localhost
+  vars_files:
+  -  secure.yml
+  
+  tasks:
+  - name: launching a ec2 instance on aws
+    ec2:
+       key_name: "mpublic"
+       instance_type: "t2.medium"
+       image: "ami-0a9d27a9f4f5c0efc"
+       wait: yes
+       count: 1
+       instance_tags:
+            name: "labcnn"
+            country: "In"
+            region: "Ap"
+       vpc_subnet_id: "subnet-0563d68cd56a901fb"
+       region: "ap-south-1"
+       assign_public_ip: yes
+       state: present
+       group_id: "sg-0bea222c4ee2c82e5"
+       aws_access_key: "{{ aws_access_key }}"
+       aws_secret_key: "{{ aws_secret_key }}"
+    register: a
+ 
+  - debug: 
+       var: a
+
+
